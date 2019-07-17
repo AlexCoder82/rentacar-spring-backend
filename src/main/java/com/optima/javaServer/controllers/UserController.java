@@ -5,14 +5,12 @@
  */
 package com.optima.javaServer.controllers;
 
+import com.optima.javaServer.model.Reservation;
 import com.optima.javaServer.model.User;
-import com.optima.javaServer.security.interfaces.ITokenUtil;
+import com.optima.javaServer.service.interfaces.IReservationService;
 import com.optima.javaServer.service.interfaces.IUserService;
-import java.util.HashMap;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,38 +24,25 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Alex
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping()
+@RequestMapping( path = "/user")
 public class UserController {
 
     @Autowired
     private IUserService userService;
 
     @Autowired
-    private ITokenUtil tokenUtil;
-
-   
-
+    private IReservationService reservationService;
+    
     //GET
-    @GetMapping(path = "/user/{userID}")
+    @GetMapping(path = "/{userID}")
     public User getUserById(@PathVariable Integer userID) {
 
         return this.userService.getUserByID(userID);
 
     }
 
-    //POST
-    @PostMapping(path = "/user")
-    public boolean registerUser(@RequestBody User user) {
-
-        this.userService.registerUser(user);
-
-        return true;
-
-    }
-
     //PUT
-    @PutMapping(path = "/user/{userID}")
+    @PutMapping(path = "/{userID}")
     public User updateUser(
             @PathVariable Integer userID,
             @RequestBody User user) {
@@ -68,5 +53,33 @@ public class UserController {
         return user;
 
     }
+    
+    //POST
+    @PostMapping(path = "/reservation")
+    public String createReservation(@RequestBody Reservation reservation) {
 
+        this.reservationService.createReservation(reservation);
+
+        return "La reserva se ha realizado correctamente.";
+
+    }
+
+    //DELETE
+    @DeleteMapping(path = "/reservation/{reservationID}")
+    public String cancelReservation(
+            @PathVariable("reservationID") Integer reservationID) {
+
+        this.reservationService.cancelReservation(reservationID);
+
+        return "La reserva ha sido cancelada correctamente.";
+
+    }
+    
+    //GET 
+    @GetMapping(path = "/auth")
+    public boolean canActivateUserRestrictedComponent(){
+        
+        return true;
+       
+    }
 }

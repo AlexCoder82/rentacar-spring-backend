@@ -80,9 +80,14 @@ public class DataAccessExceptionHandler {
 
     }
 
-    //Trata de manera general cualquier excepcion lanzada por la base de datos
+    
+
+    //Excepcion lanzada cuando se asigna un foreign key que no existe
+    //Ejemplo: asignar a un vehiculo un id de categoria 
+    //que no existe en la tabla categoria
     @ExceptionHandler
-    public ResponseEntity handleDataAccessException(DataAccessException ex) {
+    public ResponseEntity<ServerError> handleJpaObjectRetrievalFailureException(
+            JpaObjectRetrievalFailureException ex) {
 
         ServerError error = new ServerError(
                 new Date(),
@@ -95,13 +100,10 @@ public class DataAccessExceptionHandler {
                 .body(error);
 
     }
-
-    //Excepcion lanzada cuando se asigna un foreign key que no existe
-    //Ejemplo: asignar a un vehiculo un id de categoria 
-    //que no existe en la tabla categoria
+    
+    //Trata de manera general cualquier excepcion lanzada por la base de datos
     @ExceptionHandler
-    public ResponseEntity<ServerError> handleJpaObjectRetrievalFailureException(
-            JpaObjectRetrievalFailureException ex) {
+    public ResponseEntity handleDataAccessException(DataAccessException ex) {
 
         ServerError error = new ServerError(
                 new Date(),

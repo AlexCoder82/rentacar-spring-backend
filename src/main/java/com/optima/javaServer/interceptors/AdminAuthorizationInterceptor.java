@@ -35,7 +35,7 @@ public class AdminAuthorizationInterceptor extends HandlerInterceptorAdapter {
                 && "OPTIONS".equals(req.getMethod())) {
             return true;
         }
-        System.out.println(req.getPart("vehicle").getSize());
+        
         //Recupero el token del header
         String adminToken = req.getHeader("adminAuthorization").substring(7);
         //Compruebo su validez

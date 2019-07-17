@@ -12,12 +12,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,36 +23,16 @@ import org.springframework.web.bind.annotation.RestController;
  * @author Alex
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping()
+@RequestMapping(path = "/reservation")
 public class ReservationController {
 
     @Autowired
     private IReservationService reservationService;
 
-    //POST
-    @PostMapping(path = "/user/reservation")
-    public String createReservation(@RequestBody Reservation reservation) {
-
-        this.reservationService.createReservation(reservation);
-
-        return "La reserva se ha realizado correctamente.";
-
-    }
-
-    //DELETE
-    @DeleteMapping(path = "/user/reservation/{reservationID}")
-    public String cancelReservation(
-            @PathVariable("reservationID") Integer reservationID) {
-
-        this.reservationService.cancelReservation(reservationID);
-
-        return "La reserva ha sido cancelada correctamente.";
-
-    }
+    
 //GET
 
-    @GetMapping(path = "/reservation/available/count")
+    @GetMapping(path = "/available/count")
     public ResponseEntity countAndGetFirstAvailableReservation(
             @RequestParam("returnDate")
             @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate returnDate,
@@ -73,7 +49,7 @@ public class ReservationController {
 
     }
 
-    @GetMapping(path = "/reservation/available/count/{categoryID}")
+    @GetMapping(path = "/available/count/{categoryID}")
     public ResponseEntity countAndGetFirstAvailableReservationByCategory(
             @PathVariable("categoryID") Integer categoryID,
             @RequestParam("returnDate")
@@ -93,7 +69,7 @@ public class ReservationController {
     }
 
     //GET
-    @GetMapping(path = "/reservation/available/{page}")
+    @GetMapping(path = "/available/{page}")
     public Reservation getPageAvailableVehicle(
             @PathVariable("page") int page,
             @RequestParam("returnDate")
@@ -110,7 +86,7 @@ public class ReservationController {
     }
 
     //GET
-    @GetMapping(path = "/reservation/available/{page}/{categoryID}")
+    @GetMapping(path = "/available/{page}/{categoryID}")
     public Reservation getPageAvailableVehicleByCategory(
             @PathVariable("page") int page,
             @PathVariable("categoryID") Integer categoryID,
@@ -128,13 +104,6 @@ public class ReservationController {
 
     }
     
-    //GET
-    @GetMapping(path = "/reservation/count")
-    public Map<Integer,Long> countReservationsPerMonth() {
-
-        return this.reservationService
-                .countReservationsPerMonth();
-
-    }
+    
 
 }

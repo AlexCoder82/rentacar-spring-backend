@@ -6,10 +6,9 @@
 
 package com.optima.javaServer.controllers;
 
-import com.optima.javaServer.service.interfaces.ILoginService;
-import java.util.Map;
+import com.optima.javaServer.model.User;
+import com.optima.javaServer.service.interfaces.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,24 +20,19 @@ import org.springframework.web.bind.annotation.RestController;
  */
 
 @RestController
-@RequestMapping(path = "/login")
-public class LoginController {
+@RequestMapping(path = "/registration")
+public class RegistrationController {
 
     @Autowired
-    private ILoginService loginService;
-   
+    private IUserService userService;
+    
     //POST
     @PostMapping()
-    public ResponseEntity login(
-            @RequestBody Map<String,String> credentials) {
-        
-        String userName = credentials.get("userName");
-        String passwrd = credentials.get("passwrd");
+    public boolean registerUser(@RequestBody User user) {
 
-        Map responseEntity = this.loginService.login(userName, passwrd);
+        this.userService.registerUser(user);
 
-        return ResponseEntity.ok(responseEntity);
-        
+        return true;
+
     }
-       
 }

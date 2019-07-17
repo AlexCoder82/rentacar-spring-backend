@@ -31,16 +31,12 @@ public class Config implements WebMvcConfigurer{
 
     //Rutas protegidas y reservadas al administrador
     private static final List<String> ADMIN_PATH_PATTERNS = Arrays.asList(
-            "/admin/category",
-            "/admin/vehicle"
+            "/admin/*"
     );
     
     //Rutas protegidas y reservadas al usuario
     private static final List<String> USER_PATH_PATTERNS = Arrays.asList(
-            "/user/reservation",
-            "/user/reservation/{reservationID}" ,
-            "/user/{userID}",
-            "/canActivatePage"
+            "/user/*"
             
     );
 
